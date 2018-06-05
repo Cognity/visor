@@ -1,4 +1,4 @@
-- metricName: "cpuUsage"
+- metricName: "ordersUsage"
   componentId: "1"
   "@type": "sensor"
   monitorContext:
@@ -7,8 +7,13 @@
     java.version: "1.8.0_40"
     os.arch: "x86_64"
     os.version: "10.12.4"
-  sensorClassName: "de.uniulm.omi.cloudiator.visor.sensors.SystemCpuUsageSensor"
+  sensorClassName: "de.uniulm.omi.cloudiator.visor.sensors.OrdersResponseTimeSensor"
   interval:
-    period: 10
+    period: 20
     timeUnit: "SECONDS"
-  sensorConfiguration: {}
+  sensorConfiguration: {
+    cp.ordersMetrics.url: "http://172.16.12.15:9500/cpmetrics/seconds/100000",
+#    cp.customersMetrics.url: "http://172.16.12.15:9600/cpmetrics/seconds/100000",
+#    cp.productsMetrics.url: "http://172.16.12.15:9700/cpmetrics/seconds/100000",
+#    cp.usersMetrics.url: "http://172.16.12.15:9800/cpmetrics/seconds/100000"
+  }

@@ -36,6 +36,8 @@ import org.springframework.http.ResponseEntity;
 
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * A probe for measuring the CPU usage in % on the given machine.
@@ -43,8 +45,8 @@ import java.io.IOException;
 public class UsersResponseTimeSensor extends AbstractSensor {
 
     private final static Logger LOG = LoggerFactory.getLogger(RestUtil.class);
-    private static final String url = "http://172.16.12.15:9800/cpmetrics/seconds/";
-    private static final Integer seconds = 10000;
+    private final String URL_CONFIG = "cp.usersMetrics.url";
+    private URL url;
     private ObjectMapper objectMapper;
 
 
@@ -52,7 +54,7 @@ public class UsersResponseTimeSensor extends AbstractSensor {
     @SuppressWarnings("Duplicates")
     protected Measurement measureSingle() throws MeasurementNotAvailableException {
         double responseTime = 0;
-        ResponseEntity<byte[]> response = RestUtil.callRestUrl(url + seconds, HttpMethod.GET, null);
+        ResponseEntity<byte[]> response = RestUtil.callRestUrl(url.toString(), HttpMethod.GET, null);
         /*
          * Parse the response
          */
@@ -80,7 +82,11 @@ public class UsersResponseTimeSensor extends AbstractSensor {
     protected void initialize(MonitorContext monitorContext,
                               SensorConfiguration sensorConfiguration) throws SensorInitializationException {
         super.initialize(monitorContext, sensorConfiguration);
-
-
+        try {
+            this.url = new URL(sensorConfiguration.getValue(URL_CONFIG).orElse("http://172.16.12.15:9800/cpmetrics/seconds/10000"));
+        } catch (MalformedURLException e) {
+            throw new SensorInitializationException(
+                    "Url provided is not correct.", e);
+        }
     }
 }
