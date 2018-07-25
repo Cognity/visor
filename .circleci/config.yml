@@ -31,9 +31,8 @@ jobs:
           - v1-dependencies-
 
       - run: mvn clean install
-      - run: cp /visor-service/target/visor.gr /repo/target/visor.jar
       - store_artifacts:
-          path: /repo/target
+          path: /repo/visor-service/target
 
         #- save_cache:
         # paths::
