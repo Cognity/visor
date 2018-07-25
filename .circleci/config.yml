@@ -32,7 +32,7 @@ jobs:
 
       - run: mvn clean install
       - store_artifacts:
-          path: /visor-service/target/visor.jar
+          path: /repo/target
 
         #- save_cache:
         # paths::
