@@ -32,7 +32,7 @@ jobs:
 
       - run: mvn clean install
       - store_artifacts:
-          path: /repo/visor-service/target
+          path: ~/repo/visor-service/target
 
         #- save_cache:
         # paths::
